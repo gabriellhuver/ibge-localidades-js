@@ -11,6 +11,10 @@ on:
         required: true
         type: string
 
+permissions:
+  contents: write
+  packages: write
+
 jobs:
   publish:
     runs-on: ubuntu-latest
@@ -82,17 +86,12 @@ jobs:
           
       - name: Create GitHub Release
         if: steps.check-version.outputs.exists == 'false'
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        uses: softprops/action-gh-release@v1
         with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
+          tag_name: ${{ github.ref_name }}
+          name: Release ${{ github.ref_name }}
           body: |
-            ## 🚀 New Release
-            
-            ### Changes
-            - See [CHANGELOG.md](./CHANGELOG.md) for detailed changes
+            ## 🚀 New Release ${{ steps.check-version.outputs.version }}
             
             ### Installation
             ```bash
@@ -105,6 +104,8 @@ jobs:
             - [Examples](./docs/EXAMPLES.md)
           draft: false
           prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           
       - name: Skip publish (version exists)
         if: steps.check-version.outputs.exists == 'true'

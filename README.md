@@ -546,3 +546,11 @@ Se você encontrar algum problema ou tiver dúvidas:
 ---
 
 **Desenvolvido com ❤️ para a comunidade brasileira de desenvolvedores**
+
+## ☕ Apoie o Projeto
+
+Se este SDK foi útil para você, considere apoiar o desenvolvimento:
+
+[![Buy me a coffee](https://img.shields.io/badge/Buy%20me%20a%20coffee-☕-yellow.svg)](https://buy.stripe.com/4gM14meDe2u82SabGl4AU01)
+
+[**Comprar um café ☕**](https://buy.stripe.com/4gM14meDe2u82SabGl4AU01)
