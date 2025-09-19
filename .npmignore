@@ -1,0 +1,37 @@
+# Source files
+src/
+tests/
+examples/
+docs/
+
+# Configuration files
+tsconfig.json
+jest.config.js
+.eslintrc.js
+codecov.yml
+.github/
+
+# Development files
+*.log
+*.tgz
+*.tar.gz
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Git files
+.git/
+.gitignore
+
+# Coverage reports
+coverage/
+
+# Build artifacts (keep dist/ for npm)
+# dist/ is included in package.json files array

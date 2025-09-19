@@ -2,9 +2,9 @@
 
 [![npm version](https://badge.fury.io/js/ibge-localidades-sdk.svg)](https://badge.fury.io/js/ibge-localidades-sdk)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Tests](https://github.com/seu-usuario/ibge-localidades-sdk/workflows/Tests/badge.svg)](https://github.com/seu-usuario/ibge-localidades-sdk/actions)
+[![CI](https://github.com/gabriellhuver/ibge-localidades-js/workflows/CI/badge.svg)](https://github.com/gabriellhuver/ibge-localidades-js/actions)
 
-SDK oficial em TypeScript/JavaScript para a API de Localidades do IBGE (Instituto Brasileiro de Geografia e Estatística). Este SDK fornece acesso fácil e tipado a todos os dados geográficos e administrativos do Brasil.
+SDK não-oficial em TypeScript/JavaScript para a API de Localidades do IBGE (Instituto Brasileiro de Geografia e Estatística). Este SDK fornece acesso fácil e tipado a todos os dados geográficos e administrativos do Brasil.
 
 ## 📋 Índice
 
@@ -13,6 +13,7 @@ SDK oficial em TypeScript/JavaScript para a API de Localidades do IBGE (Institut
 - [API Reference](#api-reference)
 - [Exemplos](#exemplos)
 - [Tipos TypeScript](#tipos-typescript)
+- [Deploy e CI/CD](#deploy-e-cicd)
 - [Contribuição](#contribuição)
 - [Licença](#licença)
 
@@ -423,6 +424,34 @@ npm run test:coverage
 - **113 testes** ✅
 - **100% de cobertura** ✅
 
+## 🚀 Deploy e CI/CD
+
+Este projeto utiliza GitHub Actions para CI/CD automatizado:
+
+### Workflows Disponíveis
+
+- **CI**: Executa testes, linting e build em cada PR
+- **NPM Publish**: Deploy automático no NPM quando uma tag é criada
+
+### Deploy Automático
+
+```bash
+# Criar nova versão
+npm version patch  # 1.0.0 → 1.0.1
+npm version minor  # 1.0.0 → 1.1.0
+npm version major  # 1.0.0 → 2.0.0
+
+# Enviar para o GitHub
+git push origin main --tags
+```
+
+### Status dos Workflows
+
+[![CI](https://github.com/gabriellhuver/ibge-localidades-js/workflows/CI/badge.svg)](https://github.com/gabriellhuver/ibge-localidades-js/actions)
+[![NPM Publish](https://github.com/gabriellhuver/ibge-localidades-js/workflows/NPM%20Publish/badge.svg)](https://github.com/gabriellhuver/ibge-localidades-js/actions)
+
+Para mais detalhes sobre deploy, consulte o [Guia de Deploy](./docs/DEPLOY.md).
+
 ## 🤝 Contribuição
 
 Contribuições são bem-vindas! Por favor:
@@ -431,7 +460,7 @@ Contribuições são bem-vindas! Por favor:
 2. Crie uma branch para sua feature (`git checkout -b feature/AmazingFeature`)
 3. Commit suas mudanças (`git commit -m 'Add some AmazingFeature'`)
 4. Push para a branch (`git push origin feature/AmazingFeature`)
-5. Abra um Pull Request
+5. Abra um [Pull Request](https://github.com/gabriellhuver/ibge-localidades-js/pulls)
 
 ## 📄 Licença
 
@@ -441,14 +470,77 @@ Este projeto está licenciado sob a Licença MIT - veja o arquivo [LICENSE](LICE
 
 - [API Oficial do IBGE](https://servicodados.ibge.gov.br/api/docs/localidades)
 - [Documentação da API](https://servicodados.ibge.gov.br/api/docs/localidades#api-Municipios-estadosUFMunicipiosGet)
-- [Repositório no GitHub](https://github.com/seu-usuario/ibge-localidades-sdk)
+- [Repositório no GitHub](https://github.com/gabriellhuver/ibge-localidades-js)
+
+## ⚠️ Aviso Importante
+
+Este é um SDK **não-oficial** desenvolvido pela comunidade. Não é mantido ou endossado pelo IBGE. Para informações oficiais, consulte sempre a [documentação oficial do IBGE](https://servicodados.ibge.gov.br/api/docs/localidades).
+
+## 📊 Fonte dos Dados
+
+Este SDK consome dados diretamente da **API oficial do IBGE**:
+
+- **URL Base**: `https://servicodados.ibge.gov.br/api/v1/localidades`
+- **Documentação Oficial**: [servicodados.ibge.gov.br/api/docs/localidades](https://servicodados.ibge.gov.br/api/docs/localidades)
+- **Fonte dos Dados**: Instituto Brasileiro de Geografia e Estatística (IBGE)
+- **Atualização**: Os dados são atualizados conforme a API oficial do IBGE
+
+### Estrutura da API
+
+```
+https://servicodados.ibge.gov.br/api/v1/localidades/
+├── /estados
+├── /municipios
+├── /regioes
+├── /mesorregioes
+├── /microrregioes
+├── /regioes-intermediarias
+├── /regioes-imediatas
+├── /distritos
+├── /subdistritos
+├── /aglomeracoes-urbanas
+└── /paises
+```
+
+### Política de Dados
+
+- ✅ **Dados Públicos**: Todos os dados são de domínio público
+- ✅ **Sem Autenticação**: Não requer chaves de API
+- ✅ **Rate Limiting**: Respeitamos os limites da API oficial
+- ✅ **Caching**: Recomendamos implementar cache em produção
+
+### Como Funciona
+
+O SDK faz requisições HTTP diretas para a API oficial do IBGE:
+
+```typescript
+// Exemplo de requisição interna
+const response = await axios.get('https://servicodados.ibge.gov.br/api/v1/localidades/estados');
+```
+
+### Estrutura de Resposta
+
+Os dados retornados seguem exatamente a estrutura da API oficial do IBGE:
+
+```json
+{
+  "id": 35,
+  "sigla": "SP",
+  "nome": "São Paulo",
+  "regiao": {
+    "id": 3,
+    "sigla": "SE",
+    "nome": "Sudeste"
+  }
+}
+```
 
 ## 📞 Suporte
 
 Se você encontrar algum problema ou tiver dúvidas:
 
 1. Verifique a [documentação da API oficial](https://servicodados.ibge.gov.br/api/docs/localidades)
-2. Abra uma [issue no GitHub](https://github.com/seu-usuario/ibge-localidades-sdk/issues)
+2. Abra uma [issue no GitHub](https://github.com/gabriellhuver/ibge-localidades-js/issues)
 3. Consulte os [exemplos](./examples/) incluídos no projeto
 
 ---

@@ -1,6 +1,41 @@
-# API Reference - IBGE Localidades SDK
+# API Reference - IBGE Localidades SDK (Unofficial)
 
-Esta documentação fornece uma referência completa de todos os métodos disponíveis no SDK.
+Esta documentação fornece uma referência completa de todos os métodos disponíveis no SDK não-oficial.
+
+⚠️ **Aviso**: Este é um SDK não-oficial desenvolvido pela comunidade. Não é mantido ou endossado pelo IBGE.
+
+## 📊 Fonte dos Dados
+
+Este SDK consome dados diretamente da **API oficial do IBGE**:
+
+- **URL Base**: `https://servicodados.ibge.gov.br/api/v1/localidades`
+- **Documentação Oficial**: [servicodados.ibge.gov.br/api/docs/localidades](https://servicodados.ibge.gov.br/api/docs/localidades)
+- **Fonte dos Dados**: Instituto Brasileiro de Geografia e Estatística (IBGE)
+- **Atualização**: Os dados são atualizados conforme a API oficial do IBGE
+
+### Estrutura da API Oficial
+
+```
+https://servicodados.ibge.gov.br/api/v1/localidades/
+├── /estados                    # Estados do Brasil
+├── /municipios                 # Municípios do Brasil
+├── /regioes                    # Regiões do Brasil
+├── /mesorregioes               # Mesorregiões
+├── /microrregioes              # Microrregiões
+├── /regioes-intermediarias     # Regiões Intermediárias
+├── /regioes-imediatas          # Regiões Imediatas
+├── /distritos                  # Distritos
+├── /subdistritos               # Subdistritos
+├── /aglomeracoes-urbanas       # Aglomerações Urbanas
+└── /paises                     # Países
+```
+
+### Política de Dados
+
+- ✅ **Dados Públicos**: Todos os dados são de domínio público
+- ✅ **Sem Autenticação**: Não requer chaves de API
+- ✅ **Rate Limiting**: Respeitamos os limites da API oficial
+- ✅ **Caching**: Recomendamos implementar cache em produção
 
 ## Índice
 

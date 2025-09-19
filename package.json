@@ -1,7 +1,7 @@
 {
   "name": "ibge-localidades-sdk",
   "version": "1.0.0",
-  "description": "SDK JavaScript para a API de Localidades do IBGE",
+  "description": "SDK não-oficial JavaScript para a API de Localidades do IBGE",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
@@ -12,7 +12,10 @@
     "test:coverage": "jest --coverage",
     "test:all": "node tests/run-all-tests.js",
     "lint": "eslint src/**/*.ts",
-    "prepare": "npm run build"
+    "lint:fix": "eslint src/**/*.ts --fix",
+    "type-check": "tsc --noEmit",
+    "prepare": "npm run build",
+    "prepublishOnly": "npm run build && npm test"
   },
   "keywords": [
     "ibge",
@@ -22,7 +25,10 @@
     "sdk",
     "municipios",
     "estados",
-    "regioes"
+    "regioes",
+    "geografia",
+    "estatistica",
+    "dados-publicos"
   ],
   "author": "Gabriel Lhuver",
   "license": "MIT",
@@ -45,10 +51,10 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/gabriellhuver/ibge-localidades-sdk.git"
+    "url": "https://github.com/gabriellhuver/ibge-localidades-js.git"
   },
   "bugs": {
-    "url": "https://github.com/gabriellhuver/ibge-localidades-sdk/issues"
+    "url": "https://github.com/gabriellhuver/ibge-localidades-js/issues"
   },
-  "homepage": "https://github.com/gabriellhuver/ibge-localidades-sdk#readme"
+  "homepage": "https://github.com/gabriellhuver/ibge-localidades-js#readme"
 }

@@ -1,0 +1,100 @@
+name: NPM Publish
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version to publish (e.g., 1.0.0)'
+        required: true
+        type: string
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          registry-url: 'https://registry.npmjs.org'
+          
+      - name: Install dependencies
+        run: npm ci
+        
+      - name: Run tests
+        run: npm test
+        
+      - name: Build project
+        run: npm run build
+        
+      - name: Check if version exists
+        id: check-version
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            VERSION="${{ github.event.inputs.version }}"
+          else
+            VERSION=${GITHUB_REF#refs/tags/v}
+          fi
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "Checking if version $VERSION exists on npm..."
+          if npm view ibge-localidades-sdk@$VERSION version > /dev/null 2>&1; then
+            echo "Version $VERSION already exists on npm"
+            echo "exists=true" >> $GITHUB_OUTPUT
+          else
+            echo "Version $VERSION does not exist on npm"
+            echo "exists=false" >> $GITHUB_OUTPUT
+          fi
+          
+      - name: Update package.json version
+        if: steps.check-version.outputs.exists == 'false'
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            VERSION="${{ github.event.inputs.version }}"
+          else
+            VERSION=${GITHUB_REF#refs/tags/v}
+          fi
+          npm version $VERSION --no-git-tag-version
+          
+      - name: Publish to NPM
+        if: steps.check-version.outputs.exists == 'false'
+        run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          
+      - name: Create GitHub Release
+        if: steps.check-version.outputs.exists == 'false'
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          body: |
+            ## 🚀 New Release
+            
+            ### Changes
+            - See [CHANGELOG.md](./CHANGELOG.md) for detailed changes
+            
+            ### Installation
+            ```bash
+            npm install ibge-localidades-sdk@${{ steps.check-version.outputs.version }}
+            ```
+            
+            ### Documentation
+            - [README](./README.md)
+            - [API Reference](./docs/API.md)
+            - [Examples](./docs/EXAMPLES.md)
+          draft: false
+          prerelease: false
+          
+      - name: Skip publish (version exists)
+        if: steps.check-version.outputs.exists == 'true'
+        run: |
+          echo "Version ${{ steps.check-version.outputs.version }} already exists on npm. Skipping publish."
